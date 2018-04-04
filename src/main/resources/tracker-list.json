@@ -2,11 +2,11 @@
 	"delimiters": [
 		"/",
 		"&",
-		"?"
+		"\\?"
 	],
-	"tracker": [
+	"trackers": [
 		"partner",
-		"utm.*",
+		"utm.*?",
 		"ref",
 		"clk_rvr_id",
 		"aid",

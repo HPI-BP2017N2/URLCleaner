@@ -21,6 +21,7 @@ public class UrlCleanerService implements IUrlCleanerService {
 
     @Getter(AccessLevel.PRIVATE) private static final String ASSIGN_REGEX = "=";
     @Getter(AccessLevel.PRIVATE) private static final String TRACKERLIST_FILE = "tracker-list.json";
+    @Getter(AccessLevel.PRIVATE) private static final String CASE_INSENSITIVE_FLAG = "(?i)";
 
     private List<String> delimiters;
     private List<Pattern> patterns;
@@ -37,17 +38,26 @@ public class UrlCleanerService implements IUrlCleanerService {
         String cleanedUrl = dirtyUrl;
         for (Pattern pattern : getPatterns()) {
             Matcher matcher = pattern.matcher(cleanedUrl);
-            while (matcher.matches()) {
+            while (matcher.find()) {
                 cleanedUrl = removeMatch(cleanedUrl, matcher);
                 matcher = pattern.matcher(cleanedUrl);
             }
+        }
+        cleanedUrl = validateUrl(cleanedUrl);
+        return cleanedUrl;
+    }
+
+    //action
+    private String validateUrl(String cleanedUrl) {
+        if (!cleanedUrl.contains("?") && cleanedUrl.contains("&")) {
+            cleanedUrl = cleanedUrl.replaceFirst("&", "?");
         }
         return cleanedUrl;
     }
 
     private String removeMatch(String cleanedUrl, Matcher matcher) {
         return cleanedUrl.substring(0, matcher.start()) +
-                        cleanedUrl.substring(getNextDelimiter(cleanedUrl, matcher.end()), cleanedUrl.length());
+                cleanedUrl.substring(getNextDelimiter(cleanedUrl, matcher.end()), cleanedUrl.length());
     }
 
     private int getNextDelimiter(String cleanedUrl, int end) {
@@ -60,7 +70,7 @@ public class UrlCleanerService implements IUrlCleanerService {
         return cleanedUrl.length();
     }
 
-    //action
+
     private TrackerList readTrackerList(ObjectMapper objectMapper) throws IOException {
         return objectMapper.readValue(
                 getClass().getClassLoader().getResource(getTRACKERLIST_FILE()),
@@ -72,7 +82,8 @@ public class UrlCleanerService implements IUrlCleanerService {
         setPatterns(new LinkedList<>());
         for (String delimiter : trackerList.getDelimiters()) {
             for (String tracker : trackerList.getTrackers()) {
-                getPatterns().add(Pattern.compile(delimiter + tracker + getASSIGN_REGEX()));
+                getPatterns().add(Pattern.compile(getCASE_INSENSITIVE_FLAG() +
+                        delimiter + tracker + getASSIGN_REGEX()));
             }
         }
     }
