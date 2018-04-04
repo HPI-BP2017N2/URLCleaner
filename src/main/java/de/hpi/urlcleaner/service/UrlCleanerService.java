@@ -34,7 +34,7 @@ public class UrlCleanerService implements IUrlCleanerService {
     }
 
     @Override
-    public String cleanUrl(String dirtyUrl) {
+    public String cleanTrackers(String dirtyUrl) {
         String cleanedUrl = dirtyUrl;
         for (Pattern pattern : getPatterns()) {
             Matcher matcher = pattern.matcher(cleanedUrl);
@@ -45,6 +45,11 @@ public class UrlCleanerService implements IUrlCleanerService {
         }
         cleanedUrl = validateUrl(cleanedUrl);
         return cleanedUrl;
+    }
+
+    @Override
+    public String cleanRedirects(long shopID, String url) {
+        return null;
     }
 
     //action

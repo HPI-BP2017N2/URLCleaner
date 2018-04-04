@@ -35,7 +35,7 @@ public class UrlCleanerControllerTest {
 
     @Test
     public void cleanHappyPath() throws Exception {
-        doReturn(getCLEAN_URL()).when(getUrlCleanerService()).cleanUrl(getDIRTY_URL());
+        doReturn(getCLEAN_URL()).when(getUrlCleanerService()).cleanTrackers(getDIRTY_URL());
         getMockMvc()
                 .perform(get("/clean").param("url", getDIRTY_URL()))
                 .andExpect(content().string(getCLEAN_URL()))

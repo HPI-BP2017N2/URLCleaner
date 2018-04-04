@@ -2,6 +2,7 @@ package de.hpi.urlcleaner.service;
 
 public interface IUrlCleanerService {
 
-    String cleanUrl(String dirtyUrl);
+    String cleanTrackers(String dirtyUrl);
 
+    String cleanRedirects(long shopID, String url);
 }
