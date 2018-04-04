@@ -22,6 +22,6 @@ public class UrlCleanerController {
 
     @RequestMapping(value = "/clean/{shopID}", method = GET)
     public String clean(@PathVariable long shopID, @RequestParam String url) {
-        return getUrlCleanerService().cleanRedirects(shopID, url);
+        return getUrlCleanerService().clean(url, shopID);
     }
 }
