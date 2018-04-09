@@ -2,8 +2,8 @@ package de.hpi.urlcleaner.properties;
 
 import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,10 +18,10 @@ import org.springframework.web.client.RestTemplate;
 @Configuration
 @EnableOAuth2Client
 @EnableConfigurationProperties(IdealoBridgeProperties.class)
-@RequiredArgsConstructor
 public class OAuthConfig {
 
-    private final IdealoBridgeProperties clientProperties;
+    @Autowired
+    private IdealoBridgeProperties clientProperties;
 
     @Bean
     public RestTemplate oAuthRestTemplate() {
