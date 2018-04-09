@@ -1,4 +1,4 @@
-package de.hpi.urlcleaner.service.core;
+package de.hpi.urlcleaner.services;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AccessLevel;
@@ -20,7 +20,6 @@ public class TrackerCleanStrategy implements ICleanStrategy {
 
     @Getter(AccessLevel.PRIVATE) private static final String ASSIGN_REGEX = "=";
     @Getter(AccessLevel.PRIVATE) private static final String TRACKERLIST_FILE = "tracker-list.json";
-    @Getter(AccessLevel.PRIVATE) private static final String CASE_INSENSITIVE_FLAG = "(?i)";
 
     private List<String> delimiters;
     private List<Pattern> patterns;
@@ -85,8 +84,7 @@ public class TrackerCleanStrategy implements ICleanStrategy {
         setPatterns(new LinkedList<>());
         for (String delimiter : trackerList.getDelimiters()) {
             for (String tracker : trackerList.getTrackers()) {
-                getPatterns().add(Pattern.compile(getCASE_INSENSITIVE_FLAG() +
-                        delimiter + tracker + getASSIGN_REGEX()));
+                getPatterns().add(Pattern.compile(delimiter + tracker + getASSIGN_REGEX(), Pattern.CASE_INSENSITIVE));
             }
         }
     }

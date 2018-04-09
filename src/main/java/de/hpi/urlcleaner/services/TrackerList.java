@@ -1,4 +1,4 @@
-package de.hpi.urlcleaner.service.core;
+package de.hpi.urlcleaner.services;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,7 +9,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-public class TrackerList {
+class TrackerList {
 
     private List<String> delimiters;
 
