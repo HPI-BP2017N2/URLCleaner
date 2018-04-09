@@ -2,7 +2,6 @@ package de.hpi.urlcleaner.services;
 
 import de.hpi.urlcleaner.exceptions.CouldNotCleanURLException;
 import de.hpi.urlcleaner.exceptions.ShopBlacklistedException;
-import de.hpi.urlcleaner.persistence.BlacklistEntry;
 import de.hpi.urlcleaner.persistence.repositories.IBlacklistRepository;
 import de.hpi.urlcleaner.properties.IdealoBridgeProperties;
 import lombok.AccessLevel;

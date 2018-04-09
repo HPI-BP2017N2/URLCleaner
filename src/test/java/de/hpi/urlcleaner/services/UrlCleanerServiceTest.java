@@ -3,15 +3,19 @@ package de.hpi.urlcleaner.services;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.hpi.urlcleaner.exceptions.CouldNotCleanURLException;
 import de.hpi.urlcleaner.exceptions.ShopBlacklistedException;
+import de.hpi.urlcleaner.persistence.BlacklistEntry;
+import de.hpi.urlcleaner.persistence.repositories.IBlacklistRepository;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.*;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
 
@@ -31,6 +35,9 @@ public class UrlCleanerServiceTest {
 
     @Mock
     private IdealoBridge idealoBridge;
+
+    @Mock
+    private IBlacklistRepository iBlacklistRepository;
 
     @InjectMocks
     private UrlCleanerService urlCleanerService;
@@ -74,5 +81,18 @@ public class UrlCleanerServiceTest {
         String expectedUrl = "https://www.rakuten" +
                 ".de/produkt/lederbezug-sitzbezug-sitzbezuege-ranger-aus-echtem-leder-beige-hyundai-tucson-1362004065.html?portaldv=6";
         assertEquals(expectedUrl, getUrlCleanerService().clean(dirtyUrl, getEXAMPLE_SHOP_ID()));
+    }
+
+    @Test (expected = ShopBlacklistedException.class)
+    public void attemptToCleanBlacklistedUrl() throws CouldNotCleanURLException, ShopBlacklistedException {
+        doReturn(new BlacklistEntry(6980L)).when(getIBlacklistRepository()).findByShopID(6980L);
+        getUrlCleanerService().clean("https://www.rakuten.de/produkt/lederbezug", 6980L);
+    }
+
+    @Test
+    public void attemptToCleanNotBlacklistedUrl() throws CouldNotCleanURLException, ShopBlacklistedException {
+        doReturn(null).when(getIBlacklistRepository()).findByShopID(6980L);
+        doReturn("https://www.rakuten.de").when(getIdealoBridge()).resolveShopIDToRootUrl(6980L);
+        assertEquals("https://www.rakuten.de/produkt/lederbezug", getUrlCleanerService().clean("https://www.rakuten.de/produkt/lederbezug", 6980L));
     }
 }
