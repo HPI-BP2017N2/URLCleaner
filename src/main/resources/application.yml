@@ -7,3 +7,12 @@ idealobridge:
   accessTokenURI: ${ACCESS_TOKEN_URI}
   apiUrl: ${API_URL}
   shopIDToRootUrlRoute: "rootUrl/"
+
+spring:
+  data:
+      mongodb:
+        host: ${MONGO_IP}
+        port: ${MONGO_PORT}
+        username: ${MONGO_URLCLEANER_USER}
+        password: ${MONGO_PASSWORD}
+        database: data

@@ -1,6 +1,7 @@
 package de.hpi.urlcleaner.api;
 
 import de.hpi.urlcleaner.exceptions.CouldNotCleanURLException;
+import de.hpi.urlcleaner.exceptions.ShopBlacklistedException;
 import de.hpi.urlcleaner.services.IUrlCleanerService;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -22,7 +23,7 @@ public class UrlCleanerController {
     private final IUrlCleanerService urlCleanerService;
 
     @RequestMapping(value = "/clean/{shopID}", method = GET)
-    public String clean(@PathVariable long shopID, @RequestParam String url) throws CouldNotCleanURLException {
+    public String clean(@PathVariable long shopID, @RequestParam String url) throws CouldNotCleanURLException, ShopBlacklistedException {
         return getUrlCleanerService().clean(url, shopID);
     }
 }
