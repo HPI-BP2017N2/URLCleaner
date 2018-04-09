@@ -1,8 +1,6 @@
 language: java
-#services: mongodb
 sudo: false
 script: mvn clean verify
 
 env:
-#  - MONGO_DB_HOST=localhost
   - URLCLEANER_PORT=2118
