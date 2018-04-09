@@ -1,2 +1,9 @@
 server:
   port: ${URLCLEANER_PORT}
+
+idealobridge:
+  oAuth2ClientId: ${CLIENT_ID}
+  oAuth2ClientSecret: ${CLIENT_SECRET}
+  accessTokenURI: ${ACCESS_TOKEN_URI}
+  apiUrl: ${API_URL}
+  shopIDToRootUrlRoute: "rootUrl/"
