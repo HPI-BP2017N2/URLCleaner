@@ -1,6 +1,6 @@
 package de.hpi.urlcleaner.api;
 
-import de.hpi.urlcleaner.service.UrlCleanerService;
+import de.hpi.urlcleaner.services.UrlCleanerService;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.junit.Test;
