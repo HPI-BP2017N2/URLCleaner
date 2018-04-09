@@ -17,12 +17,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest
+@WebMvcTest(secure = false)
 @Getter(AccessLevel.PRIVATE)
 public class UrlCleanerControllerTest {
 
-    @Getter(AccessLevel.PRIVATE) private static final String DIRTY_URL = "https://www.mega-bikes\" +\n" +
-            "                \".de/krg-shimano-ultegra-3953-zaehne-1725mm-fc-6800-hollowtech-ii-m-achse-11-fach" +
+    @Getter(AccessLevel.PRIVATE) private static final String DIRTY_URL = "https://www.mega-bikes.de/krg-shimano-ultegra-3953-zaehne-1725mm-fc-6800-hollowtech-ii-m-achse-11-fach" +
             ":15144.html?ref=6&rabatt=true";
     @Getter(AccessLevel.PRIVATE) private static final String CLEAN_URL = "https://www.mega-bikes" +
             ".de/krg-shimano-ultegra-3953-zaehne-1725mm-fc-6800-hollowtech-ii-m-achse-11-fach:15144.html?rabatt=true";
