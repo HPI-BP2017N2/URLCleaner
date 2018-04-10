@@ -18,9 +18,11 @@ import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.io.IOException;
+import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.doReturn;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 @Getter(AccessLevel.PRIVATE)
@@ -85,7 +87,7 @@ public class UrlCleanerServiceTest {
 
     @Test (expected = ShopBlacklistedException.class)
     public void attemptToCleanBlacklistedUrl() throws CouldNotCleanURLException, ShopBlacklistedException {
-        doReturn(new BlacklistEntry(6980L)).when(getIBlacklistRepository()).findByShopID(6980L);
+        doReturn(new BlacklistEntry(new Date(),6980L)).when(getIBlacklistRepository()).findByShopID(6980L);
         getUrlCleanerService().clean("https://www.rakuten.de/produkt/lederbezug", 6980L);
     }
 
@@ -95,4 +97,25 @@ public class UrlCleanerServiceTest {
         doReturn("https://www.rakuten.de").when(getIdealoBridge()).resolveShopIDToRootUrl(6980L);
         assertEquals("https://www.rakuten.de/produkt/lederbezug", getUrlCleanerService().clean("https://www.rakuten.de/produkt/lederbezug", 6980L));
     }
+
+    @Test
+    public void shopGetsBlacklistedBecauseOfMissingRootUrl() throws ShopBlacklistedException {
+        String dirtyUrl = "http://www.nichtrakutennicht.de/blum";
+        try {
+            getUrlCleanerService().clean(dirtyUrl, getEXAMPLE_SHOP_ID());
+        } catch (CouldNotCleanURLException e) {
+            verify(getIBlacklistRepository(), times(1)).save(new BlacklistEntry(any(), getEXAMPLE_SHOP_ID()));
+        }
+    }
+
+    @Test
+    public void shopGetsNotBlacklistedBecauseOfMissingRootUrl() throws ShopBlacklistedException {
+        String dirtyUrl = "http://www.rakuten.de/blum";
+        try {
+            getUrlCleanerService().clean(dirtyUrl, getEXAMPLE_SHOP_ID());
+        } catch (CouldNotCleanURLException e) {
+            verify(getIBlacklistRepository(), never()).save(new BlacklistEntry(any(), getEXAMPLE_SHOP_ID()));
+        }
+    }
+
 }

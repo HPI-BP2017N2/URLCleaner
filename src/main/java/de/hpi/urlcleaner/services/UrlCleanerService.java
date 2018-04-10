@@ -2,6 +2,7 @@ package de.hpi.urlcleaner.services;
 
 import de.hpi.urlcleaner.exceptions.CouldNotCleanURLException;
 import de.hpi.urlcleaner.exceptions.ShopBlacklistedException;
+import de.hpi.urlcleaner.persistence.BlacklistEntry;
 import de.hpi.urlcleaner.persistence.repositories.IBlacklistRepository;
 import de.hpi.urlcleaner.properties.IdealoBridgeProperties;
 import lombok.AccessLevel;
@@ -14,6 +15,7 @@ import org.springframework.web.client.RestTemplate;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -48,7 +50,12 @@ public class UrlCleanerService implements IUrlCleanerService {
         List<ICleanStrategy> strategies = Arrays.asList(
                 new RedirectCleanStrategy(shopID, getIdealoBridge()),
                 getTrackerCleanStrategy());
-        return clean(dirtyUrl, strategies);
+        try {
+            return clean(dirtyUrl, strategies);
+        } catch (CouldNotCleanURLException e) {
+            getBlacklistRepository().save(new BlacklistEntry(new Date(), shopID));
+            throw e;
+        }
     }
 
     //actions
