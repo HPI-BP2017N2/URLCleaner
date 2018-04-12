@@ -67,7 +67,7 @@
 			    <configuration>
 			     	<archive>
 			            <manifest>
-				    	<mainClass>de.hpi.urlcleaner.Application</mainClass>
+				    	<mainClass>de.hpi.urlcleaner.UrlCleanerApplication </mainClass>
 			            </manifest>
 			    	</archive>
 			    </configuration>
