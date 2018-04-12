@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>de.hpi</groupId>
-	<artifactId>urlcleaner</artifactId>
+	<artifactId>URLCleaner</artifactId>
 	<version>1.0.0</version>
 	<packaging>jar</packaging>
 
