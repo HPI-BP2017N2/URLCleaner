@@ -1,5 +1,7 @@
 package de.hpi.urlcleaner.api;
 
+import de.hpi.urlcleaner.dto.CleanResponse;
+import de.hpi.urlcleaner.dto.SuccessResponse;
 import de.hpi.urlcleaner.exceptions.CouldNotCleanURLException;
 import de.hpi.urlcleaner.exceptions.ShopBlacklistedException;
 import de.hpi.urlcleaner.services.IUrlCleanerService;
@@ -7,6 +9,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,7 +26,8 @@ public class UrlCleanerController {
     private final IUrlCleanerService urlCleanerService;
 
     @RequestMapping(value = "/clean/{shopID}", method = GET)
-    public String clean(@PathVariable long shopID, @RequestParam String url) throws CouldNotCleanURLException, ShopBlacklistedException {
-        return getUrlCleanerService().clean(url, shopID);
+    public HttpEntity<Object> clean(@PathVariable long shopID, @RequestParam String url) throws CouldNotCleanURLException, ShopBlacklistedException {
+        String cleanUrl = getUrlCleanerService().clean(url, shopID);
+        return new SuccessResponse<>(new CleanResponse(cleanUrl)).withMessage("Url cleaned successfully.").send();
     }
 }
