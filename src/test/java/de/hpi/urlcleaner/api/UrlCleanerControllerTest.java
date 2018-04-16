@@ -14,6 +14,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.mockito.Mockito.doReturn;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
@@ -37,7 +38,7 @@ public class UrlCleanerControllerTest {
         doReturn(getCLEAN_URL()).when(getUrlCleanerService()).clean(getDIRTY_URL(), 0L);
         getMockMvc()
                 .perform(get("/clean/0").param("url", getDIRTY_URL()))
-                .andExpect(content().string(getCLEAN_URL()))
+                .andExpect(jsonPath("data.url").value(getCLEAN_URL()))
                 .andExpect(status().isOk());
     }
 
