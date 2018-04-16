@@ -16,3 +16,10 @@ spring:
         username: ${MONGO_URLCLEANER_USER}
         password: ${MONGO_PASSWORD}
         database: data
+
+logging:
+  level:
+    org.springframework.web: ERROR
+    de.deeps: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %logger{36}: %msg%n"
