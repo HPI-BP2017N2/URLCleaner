@@ -7,4 +7,5 @@ public interface IUrlCleanerService {
 
     String clean(String dirtyUrl, long shopID) throws CouldNotCleanURLException, ShopBlacklistedException;
 
+    String clean(String dirtyUrl, long shopID, String shopRootUrl) throws CouldNotCleanURLException, ShopBlacklistedException;
 }

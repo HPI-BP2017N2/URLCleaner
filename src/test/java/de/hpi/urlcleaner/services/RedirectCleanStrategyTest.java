@@ -1,7 +1,6 @@
 package de.hpi.urlcleaner.services;
 
 import de.hpi.urlcleaner.exceptions.CouldNotCleanURLException;
-import de.hpi.urlcleaner.properties.IdealoBridgeProperties;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,9 +9,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.web.client.RestTemplate;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.doReturn;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -24,15 +22,11 @@ public class RedirectCleanStrategyTest {
     @Getter(AccessLevel.PRIVATE) private static final String EXAMPLE_SHOP_ROOTURL = "https://esprit.de";
 
 
-    @Mock
-    private IdealoBridge idealoBridge;
-
     private RedirectCleanStrategy strategy;
 
     @Before
     public void setup() throws CouldNotCleanURLException {
-        doReturn(getEXAMPLE_SHOP_ROOTURL()).when(getIdealoBridge()).resolveShopIDToRootUrl(getEXAMPLE_SHOP_ID());
-        setStrategy(new RedirectCleanStrategy(getEXAMPLE_SHOP_ID(), getIdealoBridge()));
+        setStrategy(new RedirectCleanStrategy(getEXAMPLE_SHOP_ROOTURL()));
     }
 
     @Test(expected = CouldNotCleanURLException.class)

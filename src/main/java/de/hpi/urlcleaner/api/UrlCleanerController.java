@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Optional;
+
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 @RestController
@@ -25,9 +27,14 @@ public class UrlCleanerController {
 
     private final IUrlCleanerService urlCleanerService;
 
+    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
     @RequestMapping(value = "/clean/{shopID}", method = GET)
-    public HttpEntity<Object> clean(@PathVariable long shopID, @RequestParam String url) throws CouldNotCleanURLException, ShopBlacklistedException {
-        String cleanUrl = getUrlCleanerService().clean(url, shopID);
+    public HttpEntity<Object> clean(@PathVariable long shopID, @RequestParam String url,
+                                    @RequestParam(required = false) Optional<String> shopRootUrl)
+            throws CouldNotCleanURLException, ShopBlacklistedException {
+        String cleanUrl;
+        if (shopRootUrl.isPresent()) cleanUrl = getUrlCleanerService().clean(url, shopID, shopRootUrl.get());
+        else cleanUrl = getUrlCleanerService().clean(url, shopID);
         return new SuccessResponse<>(new CleanResponse(cleanUrl)).withMessage("Url cleaned successfully.").send();
     }
 }

@@ -1,6 +1,6 @@
 language: java
 sudo: false
-script: mvn clean verify
+script: mvn clean verify -P travis
 
 env:
   - URLCLEANER_PORT=2118
