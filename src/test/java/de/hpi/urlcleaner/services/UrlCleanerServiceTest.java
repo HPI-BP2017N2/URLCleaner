@@ -118,4 +118,13 @@ public class UrlCleanerServiceTest {
         }
     }
 
+    @Test
+    public void doNotCallIdealoBridgeIfShopRootUrlIsPresent() throws CouldNotCleanURLException, ShopBlacklistedException {
+        String dirtyUrl = "https://www.rakuten.de/produkt/lederbezug-sitzbezug-sitzbezuege-ranger-aus-echtem-leder-beige-hyundai" +
+                "-tucson-1362004065.html";
+        String expectedUrl = "https://www.rakuten.de/produkt/lederbezug-sitzbezug-sitzbezuege-ranger-aus-echtem-leder-beige-hyundai-tucson-1362004065.html";
+        verify(getIdealoBridge(), times(0)).resolveShopIDToRootUrl(getEXAMPLE_SHOP_ID());
+        getUrlCleanerService().clean(dirtyUrl, getEXAMPLE_SHOP_ID(), getEXAMPLE_SHOP_ROOTURL());
+    }
+
 }
