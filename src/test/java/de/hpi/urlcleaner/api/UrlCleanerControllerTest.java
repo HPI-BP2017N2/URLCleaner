@@ -42,4 +42,15 @@ public class UrlCleanerControllerTest {
                 .andExpect(status().isOk());
     }
 
+    @Test
+    public void cleanUsingExistingShopUrl() throws Exception {
+        doReturn(getCLEAN_URL()).when(getUrlCleanerService()).clean(getDIRTY_URL(), 0L, "http://www.mega-bikes.de");
+        getMockMvc()
+                .perform(get("/clean/0")
+                        .param("url", getDIRTY_URL())
+                        .param("shopRootUrl", "http://www.mega-bikes.de"))
+                .andExpect(jsonPath("data.url").value(getCLEAN_URL()))
+                .andExpect(status().isOk());
+    }
+
 }

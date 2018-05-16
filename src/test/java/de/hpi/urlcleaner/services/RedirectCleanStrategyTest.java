@@ -32,7 +32,7 @@ public class RedirectCleanStrategyTest {
     @Before
     public void setup() throws CouldNotCleanURLException {
         doReturn(getEXAMPLE_SHOP_ROOTURL()).when(getIdealoBridge()).resolveShopIDToRootUrl(getEXAMPLE_SHOP_ID());
-        setStrategy(new RedirectCleanStrategy(getEXAMPLE_SHOP_ID(), getIdealoBridge()));
+        setStrategy(new RedirectCleanStrategy(getEXAMPLE_SHOP_ROOTURL()));
     }
 
     @Test(expected = CouldNotCleanURLException.class)
