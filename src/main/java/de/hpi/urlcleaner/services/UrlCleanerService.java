@@ -43,12 +43,18 @@ public class UrlCleanerService implements IUrlCleanerService {
 
     @Override
     public String clean(String dirtyUrl, long shopID) throws CouldNotCleanURLException, ShopBlacklistedException {
+        return clean(dirtyUrl, shopID, getIdealoBridge().resolveShopIDToRootUrl(shopID));
+    }
+
+    @Override
+    public String clean(String dirtyUrl, long shopID, String shopRootUrl) throws CouldNotCleanURLException,
+            ShopBlacklistedException {
         if (isBlacklisted(shopID)) {
             throw new ShopBlacklistedException("Shop with id " + shopID + " is blacklisted!");
         }
 
         List<ICleanStrategy> strategies = Arrays.asList(
-                new RedirectCleanStrategy(shopID, getIdealoBridge()),
+                new RedirectCleanStrategy(shopRootUrl),
                 getTrackerCleanStrategy());
         try {
             return clean(dirtyUrl, strategies);

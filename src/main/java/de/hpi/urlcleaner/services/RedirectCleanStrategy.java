@@ -19,9 +19,9 @@ public class RedirectCleanStrategy implements ICleanStrategy {
 
     private String rootUrlWithoutProtocol;
 
-    RedirectCleanStrategy(long shopID, IdealoBridge idealoBridge) throws CouldNotCleanURLException {
+    RedirectCleanStrategy(String shopRootUrl) throws CouldNotCleanURLException {
         try {
-            setRootUrlWithProtocol(idealoBridge.resolveShopIDToRootUrl(shopID));
+            setRootUrlWithProtocol(shopRootUrl);
             setRootUrlWithoutProtocol(removeProtocolFromURL(getRootUrlWithProtocol()));
         } catch (MalformedURLException e) {
             throw new CouldNotCleanURLException(e.getMessage());
