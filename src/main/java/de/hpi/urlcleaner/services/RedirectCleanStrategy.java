@@ -35,9 +35,17 @@ public class RedirectCleanStrategy implements ICleanStrategy {
             throw new CouldNotCleanURLException("Failed to clean " + dirtyUrl + "\n" +
                     "Could not find rootUrl: " + getRootUrlWithoutProtocol());
         }
-        cleanedUrl = cleanedUrl.substring(cleanedUrl.indexOf(getRootUrlWithoutProtocol()) + getRootUrlWithoutProtocol
-                ().length());
+        cleanedUrl = cleanedUrl.substring(cleanedUrl.indexOf(getRootUrlWithoutProtocol()) + getRootUrlWithoutProtocol().length());
+        cleanedUrl = removeLeadingSlashIfRootUrlEndsWithSlash(cleanedUrl);
         cleanedUrl = getRootUrlWithProtocol() + cleanedUrl;
+        return cleanedUrl;
+    }
+
+    private String removeLeadingSlashIfRootUrlEndsWithSlash(String cleanedUrl) {
+        if (getRootUrlWithProtocol().isEmpty() || cleanedUrl.isEmpty()) return cleanedUrl;
+        if (getRootUrlWithProtocol().charAt(getRootUrlWithProtocol().length() - 1) == '/'
+                && cleanedUrl.charAt(0) == '/')
+            return cleanedUrl.substring(1);
         return cleanedUrl;
     }
 
