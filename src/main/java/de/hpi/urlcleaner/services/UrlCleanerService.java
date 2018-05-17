@@ -54,7 +54,7 @@ public class UrlCleanerService implements IUrlCleanerService {
         }
 
         List<ICleanStrategy> strategies = Arrays.asList(
-                new RedirectCleanStrategy(shopRootUrl),
+                new RedirectCleanStrategy(getTrackerCleanStrategy().clean(shopRootUrl)),
                 getTrackerCleanStrategy());
         try {
             return clean(dirtyUrl, strategies);
