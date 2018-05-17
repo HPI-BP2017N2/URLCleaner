@@ -30,6 +30,7 @@ import static org.mockito.Mockito.*;
 public class UrlCleanerServiceTest {
 
     @Getter(AccessLevel.PRIVATE) private static final long EXAMPLE_SHOP_ID = 20740;
+
     @Getter(AccessLevel.PRIVATE) private static final String EXAMPLE_SHOP_ROOTURL = "https://www.rakuten.de";
 
     @Spy
@@ -125,6 +126,17 @@ public class UrlCleanerServiceTest {
         String expectedUrl = "https://www.rakuten.de/produkt/lederbezug-sitzbezug-sitzbezuege-ranger-aus-echtem-leder-beige-hyundai-tucson-1362004065.html";
         verify(getIdealoBridge(), times(0)).resolveShopIDToRootUrl(getEXAMPLE_SHOP_ID());
         getUrlCleanerService().clean(dirtyUrl, getEXAMPLE_SHOP_ID(), getEXAMPLE_SHOP_ROOTURL());
+    }
+
+    @Test
+    public void rootUrlContainsAdditionalStuff() throws CouldNotCleanURLException, ShopBlacklistedException {
+        String dirtyUrl = "https://ad.doubleclick.net/ddm/trackclk/N195005.133748IDEALO.DE/B11068929.147286609;" +
+                "dc_trk_aid=323757732;dc_trk_cid=83285504;kw=2249741;dc_lat=;dc_rdid=;" +
+                "tag_for_child_directed_treatment=;x?http://www.mediamarkt" +
+                ".de/de/product/-6530067.html?uympq=vpqr%26rbtc=ide|pf|6530067||p|standard%20feed|";
+        String expectedUrl = "http://www.mediamarkt.de/de/product/-6530067.html";
+        String cleanURL = getUrlCleanerService().clean(dirtyUrl, 285519, "http://www.mediamarkt.de/?rbtc=ide|ops|logo||p||");
+        assertEquals(expectedUrl, cleanURL);
     }
 
 }
