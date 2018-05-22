@@ -6,6 +6,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.retry.annotation.Backoff;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.web.client.HttpClientErrorException;
@@ -27,7 +28,8 @@ class IdealoBridge {
     @Retryable(
       value = { HttpClientErrorException.class },
       backoff = @Backoff(delay = 3000))
-    String resolveShopIDToRootUrl(long shopID) {
+    @Cacheable(value = "shopRootUrls")
+    public String resolveShopIDToRootUrl(long shopID) {
         return getOAuthRestTemplate().getForObject(getShopIDToRootUrlURI(shopID), ShopIDToRootUrlResponse
                 .class).getShopUrl();
     }
