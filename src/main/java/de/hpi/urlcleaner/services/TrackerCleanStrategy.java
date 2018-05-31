@@ -31,6 +31,11 @@ public class TrackerCleanStrategy implements ICleanStrategy {
         setDelimiters(trackerList.getDelimiters());
     }
 
+    /**
+     * Removes all parameters from the url, which key is contained in the tracker list.
+     * @param dirtyUrl A url which possibly contains tracker parameters.
+     * @return A url which points to the same web page as <clean>dirtyUrl</clean>, but without click trackers.
+     */
     @Override
     public String clean(String dirtyUrl) {
         String cleanedUrl = dirtyUrl;

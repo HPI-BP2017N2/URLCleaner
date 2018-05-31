@@ -28,6 +28,13 @@ public class RedirectCleanStrategy implements ICleanStrategy {
         }
     }
 
+    /**
+     * This methods tries to remove all redirects from the given url. If the shop root url cannot be found, a
+     * <code>CouldNotCleanURLException</code> is raised. <br />
+     * @param dirtyUrl A url which possibly contains a redirect, that should get removed.
+     * @return A url which links to the same page, as the passed <code>dirtyUrl</code>, but without redirect.
+     * @throws CouldNotCleanURLException Thrown, if the shop root url is not contained within dirty url.
+     */
     @Override
     public String clean(String dirtyUrl) throws CouldNotCleanURLException{
         String cleanedUrl = dirtyUrl;
