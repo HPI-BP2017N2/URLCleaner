@@ -5,6 +5,9 @@ import de.hpi.urlcleaner.dto.SuccessResponse;
 import de.hpi.urlcleaner.exceptions.CouldNotCleanURLException;
 import de.hpi.urlcleaner.exceptions.ShopBlacklistedException;
 import de.hpi.urlcleaner.services.IUrlCleanerService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -27,8 +30,14 @@ public class UrlCleanerController {
 
     private final IUrlCleanerService urlCleanerService;
 
+    @ApiOperation(value = "Remove all click trackers and redirects from given url", response = String.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully removed trackers and redirects."),
+            @ApiResponse(code = 403, message = "The shop is blacklisted. The link won´t get cleaned."),
+            @ApiResponse(code = 500, message = "The shop root url wasn´t found within the given link.")})
+
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-    @RequestMapping(value = "/clean/{shopID}", method = GET)
+    @RequestMapping(value = "/clean/{shopID}", method = GET, produces = "application/json")
     public HttpEntity<Object> clean(@PathVariable long shopID, @RequestParam String url,
                                     @RequestParam(required = false) Optional<String> shopRootUrl)
             throws CouldNotCleanURLException, ShopBlacklistedException {
