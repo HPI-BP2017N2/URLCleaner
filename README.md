@@ -8,10 +8,10 @@ URLCleaner is a microservice component, that is used to remove redirects and aff
 To run the microservice it is required to set up the following:
 
 1. MongoDB
-...The MongoDB is used to keep track of blacklisted shops (in the collection named 'blacklist').
+<br />The MongoDB is used to keep track of blacklisted shops (in the collection named 'blacklist').
 
 2. Idealo bridge
-...The URLCleaner uses idealo bridge to resolve shopID to shop root url.
+<br />The URLCleaner uses idealo bridge to resolve shopID to shop root url.
 
 ### Configuration
 
@@ -34,10 +34,10 @@ MONGO_PASSWORD - Password that used to access Mongo DB
 The URLCleaner is using 2 different strategies to clean urls: 
 
 1. Redirect clean
-... The component removes parts of given Url before the corresponding root url.
+<br />The component removes parts of given Url before the corresponding root url.
 
 2. Affiliate marker clean 
-... The component removes affiliate marker (for example UTM) from the given url.
+<br />The component removes affiliate marker (for example UTM) from the given url.
 
 The both strategies are applied after each other. The result is the output. 
 
