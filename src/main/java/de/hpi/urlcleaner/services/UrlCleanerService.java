@@ -41,6 +41,15 @@ public class UrlCleanerService implements IUrlCleanerService {
         setIdealoBridge(new IdealoBridge(oAuthRestTemplate, properties));
     }
 
+    /**
+     * Applies all cleaning strategies to a given url. Currently their are only two strategies:
+     * <code>{@link RedirectCleanStrategy}</code> and <code>{@link TrackerCleanStrategy}</code>
+     * @param dirtyUrl The url that should get cleaned from tracking information.
+     * @param shopID The id that identifies the shop, the url belongs to.
+     * @return A url which points to the same internet resource, but does not contain any click trackers.
+     * @throws CouldNotCleanURLException Thrown, if the url could not get cleaned.
+     * @throws ShopBlacklistedException Thrown, if shop is blacklisted.
+     */
     @Override
     public String clean(String dirtyUrl, long shopID) throws CouldNotCleanURLException, ShopBlacklistedException {
         return clean(dirtyUrl, shopID, getIdealoBridge().resolveShopIDToRootUrl(shopID));
