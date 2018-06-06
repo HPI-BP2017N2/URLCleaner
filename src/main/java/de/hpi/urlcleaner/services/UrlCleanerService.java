@@ -76,12 +76,7 @@ public class UrlCleanerService implements IUrlCleanerService {
         List<ICleanStrategy> strategies = Arrays.asList(
                 new RedirectCleanStrategy(getTrackerCleanStrategy().clean(shopRootUrl)),
                 getTrackerCleanStrategy());
-        try {
-            return clean(dirtyUrl, strategies);
-        } catch (CouldNotCleanURLException e) {
-            getBlacklistRepository().save(new BlacklistEntry(new Date(), shopID));
-            throw e;
-        }
+        return clean(dirtyUrl, strategies);
     }
 
     //actions

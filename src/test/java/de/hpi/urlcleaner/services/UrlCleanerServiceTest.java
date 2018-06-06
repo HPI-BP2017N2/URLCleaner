@@ -110,16 +110,6 @@ public class UrlCleanerServiceTest {
     }
 
     @Test
-    public void shopGetsNotBlacklistedBecauseOfMissingRootUrl() throws ShopBlacklistedException {
-        String dirtyUrl = "http://www.rakuten.de/blum";
-        try {
-            getUrlCleanerService().clean(dirtyUrl, getEXAMPLE_SHOP_ID());
-        } catch (CouldNotCleanURLException e) {
-            verify(getIBlacklistRepository(), never()).save(new BlacklistEntry(any(), getEXAMPLE_SHOP_ID()));
-        }
-    }
-
-    @Test
     public void doNotCallIdealoBridgeIfShopRootUrlIsPresent() throws CouldNotCleanURLException, ShopBlacklistedException {
         String dirtyUrl = "https://www.rakuten.de/produkt/lederbezug-sitzbezug-sitzbezuege-ranger-aus-echtem-leder-beige-hyundai" +
                 "-tucson-1362004065.html";
